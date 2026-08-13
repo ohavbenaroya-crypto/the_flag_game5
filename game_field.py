@@ -16,10 +16,31 @@ class GameField:
         self.generate_landmines()
 
     def generate_bushes(self):
-        for run in range(NUMBUSHES):
-            i = random.randint(0, ROWS - 2)
-            j = random.randint(0, COLS - 2)
-            self.bushes.append((i, j))
+        count = 0
+        while count < NUMBUSHES:
+            # row = random.randint(0, ROWS - BUSHESHEIGHT)
+            # col = random.randint(0, COLS - BUSHESWIDTH)
+            row = 21
+            col = 46
+            if not (row < 4 and col < 4) and not (row >= self.flag_row and col >= self.flag_col):
+                has_bushes = False
+                for i in range(col, col + BUSHESWIDTH):
+                    if self.grid[row][i] == 1:
+                        has_bushes = True
+                if has_bushes == False:
+                    for i in range(col, col + BUSHESWIDTH):
+                        self.grid[row][i] = 1
+                    self.bushes.append((row, col))
+                    count = count + 1
+
+
+        # for run in range(NUMBUSHES):
+        #     i = random.randint(0, ROWS - 2)
+        #     j = random.randint(0, COLS - 2)
+        #     while self.grid[i][j] != self.grid[22][46] and self.grid[i][j] != self.grid[21][49]:
+        #         i = random.randint(0, ROWS - 2)
+        #         j = random.randint(0, COLS - 2)
+        #     self.bushes.append((i, j))
 
     def generate_landmines(self):
         count = 0
