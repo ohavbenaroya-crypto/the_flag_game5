@@ -24,47 +24,6 @@ from game_field import GameField
 
 
 
-# def conting_butuns_time(event):
-#     start_time = None
-#     press_duration = 0
-#
-#     if event == pygame.KEYDOWN and event.key == pygame.K_1:
-#         start_time = pygame.time.get_ticks()
-#
-#     if event == pygame.KEYUP and event.key == pygame.K_1:
-#             press_duration = pygame.time.get_ticks() - start_time
-#
-#     return press_duration
-#
-
-
-
-
-# def cont_time_buttons():
-#     pygame.init()
-#     clock = pygame.time.Clock()
-#
-#     start_time = None
-#     press_duration = 0
-#
-#     # running = True
-#     # while running:
-#     for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 running = False
-#
-#             if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
-#               start_time = pygame.time.get_ticks()
-#
-#             if event.type == pygame.KEYUP and event.key == pygame.K_1:
-#                 press_duration = pygame.time.get_ticks() - start_time
-#                 time_cont=press_duration/1000
-#
-#         # clock.tick(60)
-
-
-
-
 def main():
     screen = Screen()
     field = GameField()
@@ -79,7 +38,7 @@ def main():
     message = ""
     message_color = WHITE
     running = True
-    
+
     the_key = 0
     # זיהוי של הממספר שהשחקן רוצה ללחוץ
 
@@ -90,10 +49,10 @@ def main():
                 if current_time - mines_timer >= 1000:
                   show_mines = False
 
-        for event in pygame.event.get():
-                      if event.type == pygame.QUIT:
+        for event in pygame.event.get(): #בדיקת אירועים ומקשים שהשחקן לוחץ במיקלדת ולפיהם לפעול בהתאם
+                      if event.type == pygame.QUIT: #אם  השחקן רוצה לעצור את המישחק תפסיק ללרוץ
                           is_running = False
-                      if event.type == pygame.KEYDOWN:
+                      if event.type == pygame.KEYDOWN: #זיהוי לחיצה במקלדת
                           if is_game_over == False:
                               if show_mines == False:
                                   if event.key == pygame.K_UP:
@@ -111,7 +70,7 @@ def main():
 
 
 
-                              if event.key == pygame.K_0 - the_key:
+                              if event.key == pygame.K_0 - the_key: #מדידת זמן של לחיצה על אחד המספרים
                                 t = time.time()
                       if event.type == pygame.KEYUP:
                           if event.key == pygame.K_0 - the_key:  # key 'a'
@@ -119,11 +78,11 @@ def main():
                               print("You pressed key 'a' for", t, 'seconds')
 
 
-        if is_game_over == False:
+        if is_game_over == False:  #התאמה של הרגלים והגוף של השחקן לריבועים במטריצה
             feet_cells = soldier.get_feet_cells()
             body_cells = soldier.get_body_cells()
 
-            if field.check_mine(feet_cells):
+            if field.check_mine(feet_cells): #בדיקת ניצחון \ הפסד - בדיקה אם הרגלים של השחקן נגעו בפצצה\דגל
                 is_game_over = True
                 message = "You Lost!"
                 message_color = RED
@@ -133,7 +92,7 @@ def main():
                 message_color = WHITE
 
         screen.clear()
-
+#ציור של אלמנטים על פני המסך
         if show_mines:
             screen.draw_grid()
             screen.draw_landmines(field.landmines)
@@ -145,7 +104,7 @@ def main():
             screen.draw_welcome_message()
 
 
-
+#בדיקת זמן אחרי שהמשחק נגמר בשביל לדעת אחרי כמה שניות לסגור את החלון
         if is_game_over:
             screen.draw_message(message, message_color)
             screen.update()
